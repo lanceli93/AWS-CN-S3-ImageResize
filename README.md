@@ -1,7 +1,7 @@
 # AWS-CN-S3-ImageResize
 AWS中国区S3 resize image dynamically方案实现
 
-# 中国区
+# 中国区轻量级实现resize image
 本方案主要使用 S3 object lambda access point功能, 此功能已在 aws 北京和宁夏region上线.
 
 [Globa方案](https://github.com/aws-solutions/dynamic-image-transformation-for-amazon-cloudfront)在中国区应用需要做功能上的裁剪, 且对于客户来说稍重, 因为多数客户只是想要一个类似于[阿里云OSS的resize image功能](https://www.alibabacloud.com/help/en/oss/user-guide/resize-images-4)
@@ -16,3 +16,9 @@ https://aws.amazon.com/blogs/aws/introducing-amazon-s3-object-lambda-use-your-co
 Python 版本使用Pillow 库.
 NodeJS 版本使用Sharp 库.
 经测试暂未发现明显性能差距. 可能需要测试更多image size.
+
+# 测试方法
+上传对应lambda package 后可以使用如下aws cli命令进行测试(这里block了 public access)
+```
+aws s3api get-object --bucket arn:aws:s3-object-lambda:{region}:{accountid}:accesspoint/{object lambda access point name} --key image1_300x200.png image1.png
+```
